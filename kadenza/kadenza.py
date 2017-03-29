@@ -255,13 +255,11 @@ class TargetPixelFileFactory(object):
             pixelvalues_flux = (pixelvalues_adu - nreadout*meanblck) * gain / exposure_time
 
             # Populate pixel arrays
-            for idx in range(len(row_coords)):
-
-                i, j = ccd2mask(1, 1, crval1p, crval2p,
-                                1, 1, column_coords[idx], row_coords[idx])
-                raw_cnts[cad_idx, j, i] = pixelvalues_raw[idx]
-                flux[cad_idx, j, i] = pixelvalues_flux[idx]
-                flux_err[cad_idx, j, i] = np.sqrt(pixelvalues_flux[idx])
+            i, j = ccd2mask(1, 1, crval1p, crval2p,
+                            1, 1, column_coords, row_coords)
+            raw_cnts[cad_idx, j, i] = pixelvalues_raw
+            flux[cad_idx, j, i] = pixelvalues_flux
+            flux_err[cad_idx, j, i] = np.sqrt(pixelvalues_flux)
 
             cadfile.close()
             del cadfile
